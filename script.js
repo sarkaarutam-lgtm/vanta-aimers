@@ -1,21 +1,33 @@
-
 document.body.classList.add('intro-active');
 
-  
-const players = [
+
+ const players = [
   {
-    name: 'UTTAM KUMAR',
+    name: 'ODIN WALA',
     role: 'OWNER & FOUNDER',
     image: 'uttam.png'
   },
-  { name: 'PLAYER TWO', role: 'DUELIST' },
-  { name: 'PLAYER THREE', role: 'INITIATOR' },
-  { name: 'PLAYER FOUR', role: 'CONTROLLER' },
-  { name: 'PLAYER FIVE', role: 'SENTINEL' },
-  { name: 'PLAYER SIX', role: 'SUBSTITUTE' }
+  {
+    name: 'BOULDER HATER',
+    role: 'RAZE',
+    image: 'raze.png'
+  },
+  {
+    name: 'PWRETTISSS',
+    role: 'NEON',
+    image: 'neon.png'
+  },
+  {
+    name: 'ASH',
+    role: 'SAGE',
+    image: 'sage.png'
+  },
+  {
+    name: 'LUFFY',
+    role: 'TEJO',
+    image: 'tejo.png'
+  }
 ];
-
-
 
 const clips = [
   { title: 'CLUTCH MOMENTS', description: 'The rounds that matter', url: '' },
@@ -24,9 +36,15 @@ const clips = [
 ];
 
 const socials = [
-  { name: 'YOUTUBE', url: '' },
-  { name: 'INSTAGRAM', url: '' },
-  { name: 'DISCORD', url: '' }
+  { name: 'YOUTUBE', url: 'https://www.youtube.com/@SinsTV' },
+  {
+    name: 'INSTAGRAM',
+    url: 'https://www.instagram.com/paapibhai.official/'
+  },
+  {
+    name: 'DISCORD',
+    url: 'https://discord.gg/kuTdgQcpM'
+  }
 ];
 
 const playerGrid = document.getElementById('playerGrid');
@@ -38,28 +56,27 @@ players.forEach((player, index) => {
   const portrait = document.createElement('div');
   portrait.className = 'player-portrait';
 
-if (player.image) {
-  const photo = document.createElement('img');
-  photo.src = player.image;
-  photo.alt = player.name;
-  photo.className = 'player-photo';
+  if (player.image) {
+    const photo = document.createElement('img');
+    photo.src = player.image;
+    photo.alt = player.name;
+    photo.className = 'player-photo';
 
-  photo.onerror = () => {
-    photo.remove();
+    photo.onerror = () => {
+      photo.remove();
+      const silhouette = document.createElement('div');
+      silhouette.className = 'shadow-person';
+      silhouette.setAttribute('aria-hidden', 'true');
+      portrait.appendChild(silhouette);
+    };
+
+    portrait.appendChild(photo);
+  } else {
     const silhouette = document.createElement('div');
     silhouette.className = 'shadow-person';
     silhouette.setAttribute('aria-hidden', 'true');
     portrait.appendChild(silhouette);
-  };
-
-  portrait.appendChild(photo);
-} else {
-  const silhouette = document.createElement('div');
-  silhouette.className = 'shadow-person';
-  silhouette.setAttribute('aria-hidden', 'true');
-  portrait.appendChild(silhouette);
-}
-
+  }
 
   const info = document.createElement('div');
   info.className = 'player-info';
@@ -109,7 +126,11 @@ clips.forEach(clip => {
     card.tabIndex = 0;
     card.setAttribute('role', 'link');
     card.setAttribute('aria-label', `Watch ${clip.title}`);
-    card.addEventListener('click', () => window.open(clip.url, '_blank', 'noopener,noreferrer'));
+
+    card.addEventListener('click', () => {
+      window.open(clip.url, '_blank', 'noopener,noreferrer');
+    });
+
     card.addEventListener('keydown', event => {
       if (event.key === 'Enter') {
         window.open(clip.url, '_blank', 'noopener,noreferrer');
@@ -126,21 +147,27 @@ socials.forEach(social => {
   const link = document.createElement('a');
   link.className = 'social-link';
   link.textContent = social.name;
-  link.href = social.url || '#social';
 
   if (social.url) {
+    link.href = social.url;
     link.target = '_blank';
     link.rel = 'noopener noreferrer';
   } else {
-    link.addEventListener('click', event => event.preventDefault());
-    link.setAttribute('aria-label', `${social.name} link not configured yet`);
+    link.href = '#social';
+    link.addEventListener('click', event => {
+      event.preventDefault();
+    });
+    link.setAttribute(
+      'aria-label',
+      social.name + ' link not configured yet'
+    );
   }
 
   socialLinks.appendChild(link);
 });
 
-document.getElementById('year').textContent = new Date().getFullYear();
-
+document.getElementById('year').textContent =
+  new Date().getFullYear();
 
 const introDuration = 5500;
 
@@ -156,7 +183,6 @@ window.setTimeout(() => {
 
   document.body.classList.remove('intro-active');
 }, introDuration);
-
 
 const revealObserver = new IntersectionObserver(entries => {
   entries.forEach(entry => {
@@ -178,14 +204,11 @@ document.querySelectorAll('.player-card, .clip-card').forEach(card => {
 
 // Logo responds to the user's scroll position.
 
-
-
-
-
-
 const emblem = document.getElementById('emblem');
 
 function updateEmblem() {
+  if (!emblem) return;
+
   const progress = Math.min(
     Math.max(window.scrollY / (window.innerHeight * 0.7), 0),
     1
@@ -197,7 +220,7 @@ function updateEmblem() {
   const endWidth = window.innerWidth <= 600 ? 52 : 76;
 
   const centerX = window.innerWidth / 2;
-const centerY = window.innerHeight * 0.70;
+  const centerY = window.innerHeight * 0.70;
 
   const left = centerX + (12 + endWidth / 2 - centerX) * eased;
   const top = centerY + (12 + endWidth / 2 - centerY) * eased;
@@ -210,3 +233,5 @@ const centerY = window.innerHeight * 0.70;
 
   emblem.classList.toggle('scrolled', progress > 0.98);
 }
+
+
